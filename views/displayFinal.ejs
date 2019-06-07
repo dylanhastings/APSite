@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <script src='https://code.jquery.com/jquery-2.1.4.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <style>
+  
+  
+  /*make text semi transparent so you can see invoice behind*/
+  
+  
+  
+  
+    .relative{
+      position:relative; 
+      width:600px;
+    }
+    .absolute-text{
+      position:absolute; 
+      left: 75px;
+      bottom: 500px; 
+      font-size:14px; 
+      /*color:rgb(138, 138, 138,0.5);*/
+      font-family:"vedana"; 
+      background:rgba(251,251,251,.65) !important;;
+      padding:10px 20px; 
+      width:100%; 
+      text-align:center;
+      border-top-style: dotted;     
+      border-bottom-style: dotted;
+    }
+    .absolute-text.amount{
+      left: 75px;
+      bottom: 115px; 
+      b
+      /*padding:10px 20px; */
+      
+    }
+    .absolute-text.jobs{
+      left: 75px;
+      bottom: 300px; 
+      /*padding:10px 20px; */
+    }
+    .absolute-text a{
+      font-size:16px; 
+      color:#b92b27;
+    }
+    img{
+      width:700px;
+      height:850px;
+    }
+  </style>
+<div class="relative">
+  <img src="<%= invoice.imageUrl.replace(".pdf",".jpg") %>" alt="">
+  <p class="absolute-text"><%=invoice.invoiceStatus.toUpperCase(); %> By: <%= invoice.projectManager %> on: <%=invoice.statusChangeDate %></a> </p>
+  <!--<p class="absolute-text"><%= invoice.invoiceStatus %></a> </p>-->
+  <br>
+  <p class="absolute-text jobs">Breakdown / Notes: => <%= invoice.jobBreakdown %></a> </p>
+  <p class="absolute-text amount">Total: <%=invoice.invoiceAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); %></a> </p>
+
+</div>
+
+</body>
+</html>

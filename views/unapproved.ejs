@@ -1,0 +1,67 @@
+<% include partials/header %>
+
+<link rel="stylesheet" href="unapproved.css">
+
+    <br>
+    <br>
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            <% invoiceobjs.forEach(function(invoice){ %>
+            
+            
+            
+            
+                <!--replace .pdf in url with .jpg to get a thumbnail-->
+                
+                
+                <li class="thumbnail col-lg-3 col-sm-6 col-xs-12 invoiceDisplay"><img src= <%= invoice.imageUrl.replace(".pdf",".jpg") %> ><a href="/unapproved/<%= invoice._id %>"><%= invoice.vendor + " " +invoice.invoiceNumber%> </a></li>
+
+                
+                <!--<li class="thumbnail col-lg-3 col-sm-6 col-xs-12"><img src= <%= invoice.imageUrl %> ><a href="/unapproved/<%= invoice._id %>"><%= invoice.vendor + " " +invoice.invoiceNumber%> </a></li>-->
+                
+                
+            <% }) %>
+                
+        </div>
+        
+        <h1>Invoices for: <%= username %></h1>
+
+
+<br>
+<br>
+<br>
+<table class=" table table-hover">
+    <tr>
+        <th>Vendor</th>
+        <th>Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>Invoice Amount</th>
+        <th>Approver</th>
+        <th>Status</th>
+        <th>Notes</th>
+    </tr>
+
+<% invoiceobjs.forEach(function(invoice){ %>
+    <tr>
+        <td> <%= invoice.vendor %> </td>
+        <td> <a href="/unapproved/<%= invoice._id.toString() %>"> <%= invoice.invoiceNumber %> </a></td>
+        <td> <%= invoice.invoiceDate %> </td>
+        <td> <%= invoice.invoiceAmount %> </td>
+        <td> <%= invoice.projectManager %> </td>
+        <td> <%=invoice.invoiceStatus %></td>
+        <td> <%= invoice.notes%>... </td>
+    </tr>
+    
+<% }) %>
+</table>
+
+<br>
+<br>
+<!--<img src="https://res.cloudinary.com/djoqjmxax/image/upload/v1558283839/aeywzqjplujlrv5sntu1.jpg">-->
+<!--pdf-->
+<!--<embed src="https://res.cloudinary.com/djoqjmxax/image/upload/v1558283839/aeywzqjplujlrv5sntu1.pdf" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">-->
+<!--<iframe src="https://res.cloudinary.com/djoqjmxax/image/upload/v1558283839/aeywzqjplujlrv5sntu1.pdf" -->
+<!--style="width:600px; height:500px;" frameborder="0"></iframe>-->
+<!--no toolbar-->
+<!--<embed src="https://res.cloudinary.com/djoqjmxax/image/upload/v1558283839/aeywzqjplujlrv5sntu1.pdf#toolbar=0&navpanes=0&scrollbar=0" width="425" height="425">-->
+
+<% include partials/footer %>

@@ -1,0 +1,90 @@
+<% include partials/header %>
+    <link rel="stylesheet" href="/invoiceScreen.css">
+    
+    <div class="container">
+        <form action="/unapproved/<%= invoice._id %>/:status" method="POST">
+        <div class="jumbotron">
+            <div class="invoiceForApproval thumbnail"><a href="<%= invoice.imageUrl %>" target="_blank"> <img src="<%= invoice.imageUrl.replace(".pdf",".jpg") %>" ><span id="invoiceInfo"><br><strong><%= invoice.vendor + " " + invoice.invoiceNumber%> </strong><br></span></a><p>Status: <span><strong><%= invoice.invoiceStatus %></strong></span></p></div>
+            <div class="container">
+                <!--<p><span class="distrInfo joblabel">JOB:</span><span class="distrInfo">AMOUNT:</span></p>-->
+                <br>
+                <span class="nowrap costOrExpense"><button type="button" class="buttonLink" id="jobCosted">Job Costed</button> | <button type="button" class="buttonLink" id="overhead">Overhead Expense</button></span>
+                <div class="row jobInfo form-group">
+                    <br>
+                    <p> $<span id="totalAmount"><%= invoice.invoiceAmount %></span> </p>
+                    <br>
+                    <br>
+                    <div class="row form-group">
+                <div class="btn-group-sm" data-toggle="buttons" id="approveChoice">
+                      <label class="btn btn-primary approve active">
+                        <input type="radio" value="approved" name="options" id="option1" checked onChange="$('#rejectNotes').hide();"> Approve
+                      </label>
+                      <label class="btn btn-primary reject">
+                        <input type="radio" value="rejected" name="options" id="option2" onChange="$('#rejectNotes').show();">Reject
+                      </label>
+                      <label class="btn btn-primary notMe">
+                        <input type="radio" value="reassign" name="options" id="option3" onChange="$('#rejectNotes').show();">Not Me
+                      </label>
+                </div>
+                <br>
+                <br>
+                    <ul class="jobList" name="jobBreakdownList">
+                        <!--<li class="col-xs-12 col-sm-4 col-md-4 jobBreakdown"><input type="text" class="form-control jobNumber" placeholder="Job Number"><input type="text" class="form-control budgetItem" placeholder="Budget Item"><input type="number" step="0.01" class="form-control jobAmount" placeholder="Amount"><i class="fas fa-plus-square addJob"></i></li>-->
+                        <li class="col-xs-12 col-sm-4 col-md-4 jobBreakdown">
+                            <input list="jobs" name="job" class="form-control jobNumber" placeholder="  Job">
+                            <datalist id="jobs" ><% jobs.forEach(function(job){ %>
+                                    <option value="<%= job.jobNumber %>">
+                                        <%= job.jobDescription %>
+                                    </option>
+                                    <% }) %>
+                                </datalist>
+                        <!--<input type="text" class="form-control budgetItem" placeholder="Budget Item">-->
+                            <input list="budgetItem" name="budgetItem" class="form-control budgetItem" placeholder="Phase and Cost Code" autocomplete="off">
+                            <datalist id="budgetItem" class = "budgetItem">
+                                <!--<option value="Internet Explorer">-->
+                                <!--<option value="Firefox">-->
+                                <!--<option value="Chrome">-->
+                                <!--<option value="Opera">-->
+                                <!--<option value="Safari">-->
+                            </datalist>
+                        <input type="number" step=".01" class="form-control jobAmount" placeholder="Amount"><i class="fas fa-plus-square addJob"></i></li>
+                    </ul>
+                </div>
+            </div>
+            <p></p>
+            
+                <br>
+                <!--<li class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><a href='/unapproved/<%= invoice._id %>/approved/'><button type="submit" class="btn btn-success btn-lg approvalButtons" name="approvalButton" id="approved" value="approved">Approved</button></a></li>-->
+                <!--<li class="col-lg-4 col-md-4 col-sm-4  col-xs-12"><a href='/unapproved/<%= invoice._id %>/rejected/'><button type="submit" class="btn btn-danger btn-lg approvalButtons" name="rejectionButton" value ="rejected" onClick="$('#rejectNotes').toggle(); $('#hiddenSubmit').toggle();">Reject</button></li>-->
+                <!--<li class="col-lg-4 col-md-4 col-sm-4 col-xs-12"><a href='#'><button type="button" class="btn btn-info btn-lg approvalButtons" id="notMe">Not Me</button></a></li>-->
+            </div>
+            <br>
+            <input id="rejectNotes" name="notes" class="form-control" rows="3" type="text" style="display:none; margin:auto;" placeholder="Enter notes" >
+            <input id="jobNotes" name="jobNotes"class="form-control" rows="3" type="text" style="display:none; margin:auto;" placeholder="Enter notes" required>
+            <br>
+            <% var a = ["1","2","3","4"] %>
+
+            <button class="btn btn-success btn-lg submitButton" type="submit">Submit</button>
+            <!--<a href='https://www.google.com'><button class="btn btn-primary" id='hiddenSubmit' style="display:none;">Submit</button></a>-->
+        </div>
+        <div id='hiddenPart' style="display:none">
+            <%= JSON.stringify(jobs) %>
+        </div>
+        <!--auto complete list-->
+        <!--          <input list="browsers" name="browser">-->
+        <!--          <datalist id="browsers">-->
+        <!--            <option value="Internet Explorer">-->
+        <!--            <option value="Firefox">-->
+        <!--            <option value="Chrome">-->
+        <!--            <option value="Opera">-->
+        <!--            <option value="Safari">-->
+        <!--          </datalist>-->
+
+        </form>
+
+    </div>
+    
+    <button id="breakdown">Check Breakdown</button>
+
+<script src='/invoiceScreen.js'></script>
+<% include partials/footer %>

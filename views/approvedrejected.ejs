@@ -1,0 +1,44 @@
+<% include partials/header %>
+<link rel="stylesheet" href="unapproved.css">
+
+    <br>
+    <br>
+    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            <% invoiceobjs.forEach(function(invoice){ %>
+                <li class="thumbnail col-lg-3 col-sm-6 col-xs-12 invoiceDisplay"><img src= <%= invoice.imageUrl.replace(".pdf",".jpg") %> ><a href="/invoiceStatus/<%= invoice._id %>"><%= invoice.vendor + " " +invoice.invoiceNumber%> </a></li>
+                <!--<li class="thumbnail col-lg-3 col-sm-6 col-xs-12"><img src= <%= invoice.imageUrl %> ><a href="/rejected/<%= invoice._id %>"><%= invoice.vendor + " " +invoice.invoiceNumber%> </a></li>-->
+                
+                
+            <% }) %>
+                
+        </div>
+
+<br>
+<br>
+<br>
+<table class=" table table-hover">
+    <tr>
+        <th>Vendor</th>
+        <th>Invoice Number</th>
+        <th>Invoice Date</th>
+        <th>Invoice Amount</th>
+        <th>Approver</th>
+        <th>Status</th>
+        <th>Notes</th>
+    </tr>
+<% invoiceobjs.forEach(function(invoice){ %>
+    <tr>
+        <td> <%= invoice.vendor %> </td>
+        <td> <%= invoice.invoiceNumber %> </td>
+        <td> <%= invoice.invoiceDate %> </td>
+        <td> <%= invoice.invoiceAmount %> </td>
+        <td> <%= invoice.projectManager %> </td>
+        <td> <%=invoice.invoiceStatus %></td>
+        <td> <%= invoice.notes%>... </td>
+    </tr>
+    
+<% }) %>
+</table>
+
+
+<% include partials/footer %>

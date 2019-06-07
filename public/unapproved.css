@@ -1,0 +1,24 @@
+.thumbnail>img{
+    width: 450px;
+    height: 550px;
+    display: block;
+    padding:50px;
+    
+}
+
+.linkButton{
+    /*text-align:center;*/
+    width:100%;
+    background:none!important;
+    color:inherit;
+    border:none; 
+    padding:0!important;
+    font: inherit;
+     /*border is optional*/
+    cursor: pointer;
+    display:block;
+}
+.spanTest{
+    text-align: center;
+    margin:auto;
+}

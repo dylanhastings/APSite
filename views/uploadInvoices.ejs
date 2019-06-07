@@ -1,0 +1,64 @@
+<% include partials/header %>
+
+    <div class="container uploadForm">
+        <form action="/uploadInvoices" method="POST" enctype="multipart/form-data">
+            <img class="invis" id="imageDisplay" src="" alt="ATT">
+
+
+                <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <!--<input type="file" id="exampleInputFile" name="image">-->
+                        <input type="file" id="image" name="image" accept="image/*" required>
+
+                        <!--<input type="text" class="form-control invoiceInfo" name="imageUrl" placeholder="URL">-->
+                        <br>
+                        <p class="help-block">Select Project Manager</p>
+                        <select name="projectManager">
+                            <% users.forEach(function(user){ %>
+                                <option value="<%= user.firstname %> <%= user.lastname %>"><%= user.firstname %> <%= user.lastname %></option>
+                                <% }); %>
+                                <!--<option value="Bill Guy">Bill Guy</option>-->
+                                <!--<option value="Harry Iacono">Harry Iacono</option>-->
+                                <!--<option value="Ted Vaughan">Ted Vaughan</option>-->
+                                <!--<option value="Marc Rosenblatt">Marc Rosenblatt</option>-->
+                        </select>
+                </div>
+<!-- 
+                <label class="col-sm-2 control-label" for="formGroupInputSmall">Vendor: </label>
+                <div class="col-sm-10">
+                <input class="form-control" type="text" id="formGroupInputSmall" placeholder="vendor"> -->
+                <div class="form-group">
+                    <label for="vendor">Vendor</label>
+                    <br>
+                    <!--<input type="text" class="form-control invoiceInfo" name="vendor" placeholder="Vendor">-->
+                    <input list="vendor" name="vendor" class="form-control invoiceInfo">
+                    <datalist id="vendor">
+                        <option value="Cameron McEffee">
+                        <option value="Bore It">
+                        <option value="Benfer">
+                        <option value="HCSS">
+                        <option value="WB Mason">
+                    </datalist>
+                    <br>
+
+                    <label for="invoiceNumber">Invoice Number:</label>
+                    <input type="text" class="form-control invoiceInfo" name="invoiceNumber" placeholder="Invoice Number">                
+
+                    <label for="invoiceAmount">Invoice Amount:</label>
+                    <input type="currency" class="form-control invoiceInfo" name="invoiceAmount" placeholder="Invoice Amount">                    
+
+                    <label for="invoiceDate">Invoice Date:</label>
+                    <input type="date" class="form-control invoiceInfo" name="invoiceDate">
+                </div>
+                
+
+
+                <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+    </div>
+    
+    <!--<% users.forEach(function(user){ %>-->
+    <!--    <p> <%= user.firstname %> <%= user.lastname %>-->
+    <!--<% }); %>-->
+
+<% include partials/footer %>

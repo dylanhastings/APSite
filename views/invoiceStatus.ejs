@@ -1,0 +1,27 @@
+<% include partials/header %>
+    <link rel="stylesheet" href="/invoiceScreen.css">
+    
+    <div class="container">
+        <div class="jumbotron">
+            <div class="invoiceForApproval thumbnail"><a href="<%= invoice.imageUrl %>" > <img src="<%= invoice.imageUrl.replace(".pdf",".jpg") %>" ><span><br><strong><%= invoice.vendor + " " + invoice.invoiceNumber%> </strong><br></span></a><p>Status: <span><strong><%= invoice.invoiceStatus %></strong></span></p></div>
+                <div class="container">
+                    <!--<p><span class="distrInfo joblabel">JOB:</span><span class="distrInfo">AMOUNT:</span></p>-->
+                        <br>
+                        <p> $<span id="totalAmount"><%= invoice.invoiceAmount %></span> </p>
+                        <br>
+                        <br>
+                        <p><span class="formattedBreakdown"><%= invoice.jobBreakdown %></span></p>
+                        <br>
+                        <br>
+                        <p><%= invoice.notes %></p>
+                        <br>
+                        <a href="/invoiceStatus/<%= invoice._id %>/display">Test</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src='/invoiceScreen.js'></script>
+<% include partials/footer %>
