@@ -52,8 +52,14 @@ cloudinary.config({
     api_secret:"g_n5m7fcTtJF8uHPZNIrehD6HEQ"
 });
 // db setup
-mongoose.connect("mongodb://localhost/apsystem");
-
+mongoose.connect('mongodb+srv://dylanhastings:Dh1634842!@cluster0-dwtok.mongodb.net/test?retryWrites=true&w=majority', {
+	useNewUrlParser: true,
+	useCreateIndex: true
+}).then(() => {
+	console.log('Connected to DB!');
+}).catch(err => {
+	console.log('ERROR:', err.message);
+});
 app.use(express.static("public"));
 // app.use('/required', express.static('required'));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -554,7 +560,7 @@ function statusEmail(invoice,email,status){
             }
         });
     }
-    
+
     });
     console.log('sent email');
 }
