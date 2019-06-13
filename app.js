@@ -6,6 +6,7 @@ var express                 =require("express"),
     mongoose                =require("mongoose"),
     User                    =require("./models/user"),
     Job                     =require("./models/jobs"),
+    config                  =require('./config'),
     passport                =require("passport"),
     multer                  =require("multer"),
     nodemailer              =require("nodemailer"),
@@ -47,12 +48,12 @@ var imageFilter=function(req,file,cb){
 var upload=multer({storage:storage,fileFilter:imageFilter})
 
 cloudinary.config({
-    cloud_name:'djoqjmxax',
-    api_key:112485178951451,
-    api_secret:"g_n5m7fcTtJF8uHPZNIrehD6HEQ"
+    cloud_name:config.database.cloud_name,
+    api_key:config.database.api_key,
+    api_secret:config.database.api_secret
 });
 // db setup
-mongoose.connect('mongodb+srv://dylanhastings:Dh1634842!@cluster0-dwtok.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(config.database.address, {
 	useNewUrlParser: true,
 	useCreateIndex: true
 }).then(() => {
@@ -298,7 +299,6 @@ app.post("/uploadInvoices",isLoggedIn,isAdmin,upload.single('image'),function(re
         console.log(err);
         }else{
             res.redirect("/unapproved");
-            // email(imageUrl,'dylanhastings01893@gmail.com');
 
         }
     });
@@ -337,12 +337,10 @@ app.get("/unapproved/:id/", function(req, res){
         if(err){
             console.log(err);
         }else{
-            // email(foundInvoice.imageUrl,req.params.id,'dylanhastings01893@gmail.com');
             res.render("invoiceScreen",{invoice:foundInvoice,jobs:jobs});
             // console.log(jobs);
         }
     });
-    
     
     
 });
@@ -358,10 +356,8 @@ app.post("/unapproved/:id/:status/",function(req,res){
             console.log(err);
         }else{
             // res.render("invoiceStatus",{invoice:foundInvoice});
-            // email(foundInvoice.image,'dylanhastings01893@gmail.com');
             console.log(foundInvoice.imageUrl);
-            // email(foundInvoice,'dylanhastings01893@gmail.com',)
-            statusEmail(foundInvoice,'dylanhastings01893@gmail.com',req.body.options);
+            statusEmail(foundInvoice,config.email.username,req.body.options);
         }
     });
     InvoiceObj.updateOne({_id: mongoose.mongo.ObjectId(req.params.id)}, {$set:{invoiceStatus:req.body.options,statusChangeDate: date, notes:req.body.notes,jobBreakdown:[req.body.jobNotes]}}, {new: true},function(err, result) {
@@ -506,12 +502,12 @@ function email(invoice,email){
     var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'dylanhastingsmcg@gmail.com',
-        pass: 'Mcg4842#'
+        user: config.email.username,
+        pass: config.email.password
         }
     });
     const mailOptions = {
-     from: 'dylanhastingsmcg@gmail.com', // sender address
+     from: config.email.username, // sender address
      to: email, // list of receivers
      subject: 'Invoice ', // Subject line
       html: '<img src="' + invoice.imageUrl.replace(".pdf",".jpg") + '"><br><br><p>Approve|Reject'// plain text body
@@ -536,8 +532,8 @@ function statusEmail(invoice,email,status){
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'dylanhastingsmcg@gmail.com',
-            pass: 'Mcg4842#'
+            user: config.email.username,
+            pass: config.email.password
         }
     });
     
@@ -546,12 +542,12 @@ function statusEmail(invoice,email,status){
         console.log(err);
     } else {
         var mainOptions = {
-            from: '"Dylan Hastings" dylanhastingsmcg@gmail.com',
-            to: "dylan.hastings@mcgfiber.com",
-            subject: 'Hello, world',
+            from: config.email.username,
+            to: config.email.username,
+            subject: 'Invoice Approved',
             html: data
         };
-        console.log("html data ======================>", mainOptions.html);
+        // console.log("html data ======================>", mainOptions.html);
         transporter.sendMail(mainOptions, function (err, info) {
             if (err) {
                 console.log(err);
@@ -562,7 +558,8 @@ function statusEmail(invoice,email,status){
     }
 
     });
-    console.log('sent email');
+    console.log(config.email.password)
+    console.log('statusEmail sent');
 }
 
 app.set('port', process.env.PORT || 3000);
@@ -570,7 +567,6 @@ app.set('host', process.env.HOST || '3.15.23.88');
 
 app.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('host') + ':' + app.get('port'));
-  console.log("Run curl http://169.254.169.254/latest/meta-data/public-ipv4 to get public IP address");
   
 });
 
